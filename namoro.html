@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Para o Meu Amor ❤️</title>
+    
+    <!-- Importando as novas fontes do Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #120005 0%, #2b0410 50%, #0d0004 100%);
+            /* Alterado para Plus Jakarta Sans */
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            color: #f5f5f5;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: #ff2a5f;
+            border-radius: 50%;
+            filter: blur(150px);
+            opacity: 0.15;
+            z-index: 0;
+        }
+
+        .painel {
+            background-color: rgba(25, 10, 15, 0.75);
+            width: 90%;
+            max-width: 420px;
+            padding: 35px 25px;
+            border-radius: 28px;
+            border: 1px solid rgba(255, 77, 109, 0.15);
+            box-shadow: 0px 20px 50px rgba(0, 0, 0, 0.5), 
+                        0px 0px 30px rgba(255, 42, 95, 0.1);
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 1;
+        }
+
+        h1 {
+            /* Alterado exclusivamente para a fonte manuscrita Dancing Script */
+            font-family: 'Dancing Script', cursive;
+            color: #ff4d6d;
+            font-size: 36px; /* Ajustado ligeiramente o tamanho pois fontes cursivas tendem a ser menores */
+            margin-bottom: 12px;
+            font-weight: 700;
+            text-shadow: 0 0 10px rgba(255, 77, 109, 0.3);
+        }
+
+        h2 {
+            color: #cccccc;
+            font-size: 15px;
+            margin-bottom: 25px;
+            font-weight: 400;
+            line-height: 1.5;
+        }
+
+        .container-img {
+            margin-bottom: 25px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .container-img::after {
+            content: '';
+            position: absolute;
+            top: -4px; left: -4px; right: -4px; bottom: -4px;
+            border-radius: 24px;
+            background: linear-gradient(45deg, #ff4d6d, #ff1a43);
+            z-index: -1;
+            opacity: 0.6;
+        }
+
+        img {
+            width: 180px;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 20px;
+            border: 4px solid #190a0f;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+            display: block;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* Proporção 16:9 */
+            height: 0;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 3px solid #ff4d6d;
+            box-shadow: 0 8px 25px rgba(255, 77, 109, 0.2);
+            margin: 20px 0;
+        }
+
+        .video-container video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .botoes {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            height: 50px;
+            position: relative;
+        }
+
+        .btn {
+            /* Garante que os botões usem a fonte padrão limpa */
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 14px;
+            cursor: pointer;
+            width: 120px;
+            height: 48px;
+            transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+        }
+
+        #sim {
+            background: linear-gradient(135deg, #ff4d6d 0%, #ff1a43 100%);
+            color: white;
+        }
+
+        #sim:hover {
+            transform: scale(1.08);
+            box-shadow: 0 0 25px rgba(255, 77, 109, 0.6);
+        }
+
+        #sim:active {
+            transform: scale(0.98);
+        }
+
+        #nao {
+            background-color: #2d1f24;
+            color: #ff9ebb;
+            border: 1px solid rgba(255, 158, 187, 0.2);
+            z-index: 9999;
+        }
+        
+        #nao:hover {
+            background-color: #3d2930;
+        }
+
+        .btn-voltar {
+            /* Garante que o botão voltar use a fonte padrão limpa */
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: transparent;
+            color: #8a7a80;
+            border: 1px dashed rgba(255, 255, 255, 0.2);
+            font-size: 13px;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.2s ease;
+            display: inline-block;
+        }
+
+        .btn-voltar:hover {
+            color: #ffffff;
+            border-color: rgba(255, 77, 109, 0.5);
+            background-color: rgba(255, 77, 109, 0.05);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="painel" id="conteudo">
+        <h1>Quer casar comigo? 💍</h1>
+        <h2>Brincadeira... <br>Aceitas viver comigo pra sempre??</h2>
+        
+        <div class="container-img">
+            <img src="smiling-dog-20.gif" alt="Dog Sorrindo">
+        </div>
+        
+        <div class="botoes">
+            <button id="sim" class="btn" onclick="parabens()">Sim!</button>
+            <button id="nao" class="btn" onmouseover="fuja(event)" ontouchstart="fuja(event)">Não</button>
+        </div>
+    </div>
+
+    <script>
+        let tentativesNao = 0;
+        const limiteTentativas = 8; 
+
+        function fuja(event) {
+            if (event) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+
+            const botaoNao = document.getElementById("nao");
+            tentativesNao++;
+
+            if (tentativesNao <= limiteTentativas) {
+                if (botaoNao.style.position !== 'fixed') {
+                    botaoNao.style.position = 'fixed';
+                }
+
+                if (tentativesNao === 3) {
+                    botaoNao.textContent = "Certeza? 🤔";
+                } else if (tentativesNao === 5) {
+                    botaoNao.textContent = "Clica em Sim! 🥺";
+                } else if (tentativesNao === 7) {
+                    botaoNao.textContent = "Última chance... 👀";
+                }
+
+                const botaoLargura = 120;
+                const botaoAltura = 48;
+                const paddingFesta = 25;
+
+                const maxX = window.innerWidth - botaoLargura - paddingFesta;
+                const maxY = window.innerHeight - botaoAltura - paddingFesta;
+
+                const aleatorioX = Math.max(paddingFesta, Math.floor(Math.random() * maxX));
+                const aleatorioY = Math.max(paddingFesta, Math.floor(Math.random() * maxY));
+
+                botaoNao.style.left = aleatorioX + "px";
+                botaoNao.style.top = aleatorioY + "px";
+                
+            } else {
+                botaoNao.style.transform = "scale(0)";
+                botaoNao.style.opacity = "0";
+                setTimeout(() => {
+                    botaoNao.style.display = 'none';
+                }, 300);
+            }
+        }
+
+        function parabens() {
+            const conteudo = document.getElementById("conteudo");
+            
+            const botaoNao = document.getElementById("nao");
+            if(botaoNao) botaoNao.style.display = 'none';
+
+            conteudo.style.opacity = "0";
+            conteudo.style.transform = "scale(0.9)";
+
+            setTimeout(() => {
+                /* Inline style atualizado dinamicamente no JS para herdar a fonte manuscrita no sucesso */
+                conteudo.innerHTML = `
+                    <h1 style="color: #ff4d6d; font-family: 'Dancing Script', cursive; font-size: 36px; text-shadow: 0 0 15px rgba(255,77,109,0.5); margin-bottom: 10px;">
+                        O melhor 'Sim' da minha vida! 💖
+                    </h1>
+                    
+                    <div class="video-container">
+                        <video src="videoplayback.mp4" autoplay loop muted playsinline controls></video>
+                    </div>
+
+                    <h2 style="font-size: 14px; line-height: 1.6; color: #e0e0e0; font-weight: 400; padding: 0 5px; margin-bottom: 0;">
+                        Você não imagina o tamanho da minha felicidade agora. <br>
+                        Obrigado por aceitar! Prometo te fazer muito feliz. <br>
+                        <strong>Nossa história começa agora! 👩‍❤️‍👨✨</strong>
+                    </h2>
+
+                    <button class="btn-voltar" onclick="voltarTelaInicial()">← Voltar</button>
+                `;
+                conteudo.style.opacity = "1";
+                conteudo.style.transform = "scale(1)";
+            }, 300);
+
+            const duracao = 4 * 1000;
+            const fim = Date.now() + duracao;
+
+            (function molduraAnir() {
+                confetti({
+                    particleCount: 4,
+                    angle: 60,
+                    spread: 60,
+                    origin: { x: 0, y: 0.75 },
+                    colors: ['#ff1a43', '#ff4d6d', '#ff85a1', '#ffb3b3'],
+                    shapes: ['heart'],
+                    scalar: 1.2
+                });
+                
+                confetti({
+                    particleCount: 4,
+                    angle: 120,
+                    spread: 60,
+                    origin: { x: 1, y: 0.75 },
+                    colors: ['#ff1a43', '#ff4d6d', '#ff85a1', '#ffb3b3'],
+                    shapes: ['heart'],
+                    scalar: 1.2
+                });
+
+                if (Date.now() < fim) {
+                    requestAnimationFrame(molduraAnir);
+                }
+            }());
+        }
+
+        function voltarTelaInicial() {
+            const conteudo = document.getElementById("conteudo");
+            conteudo.style.opacity = "0";
+            conteudo.style.transform = "scale(0.9)";
+
+            tentativesNao = 0;
+
+            setTimeout(() => {
+                conteudo.innerHTML = `
+                    <h1>Quer casar comigo? 💍</h1>
+                    <h2>Brincadeira... <br>Aceitas namorar comigo?</h2>
+                    
+                    <div class="container-img">
+                        <img src="smiling-dog-20.gif" alt="Dog Sorrindo">
+                    </div>
+                    
+                    <div class="botoes">
+                        <button id="sim" class="btn" onclick="parabens()">Sim!</button>
+                        <button id="nao" class="btn" onmouseover="fuja(event)" ontouchstart="fuja(event)">Não</button>
+                    </div>
+                `;
+
+                const botaoNao = document.getElementById("nao");
+                botaoNao.style.position = "static";
+                botaoNao.style.transform = "scale(1)";
+                botaoNao.style.opacity = "1";
+                botaoNao.style.display = "block";
+                botaoNao.textContent = "Não";
+
+                conteudo.style.opacity = "1";
+                conteudo.style.transform = "scale(1)";
+            }, 300);
+        }
+    </script>
+
+</body>
+</html>
